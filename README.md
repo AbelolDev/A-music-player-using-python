@@ -27,3 +27,9 @@ A simple command-line music player built with Python and Pygame. This program al
    ```bash
    git clone https://github.com/yourusername/simple-music-player.git
    cd simple-music-player
+
+
+1. Install dependencies:
+
+   ```bash
+   pip install pygame
