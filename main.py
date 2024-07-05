@@ -10,6 +10,18 @@ def clear_screen():
     else:
         print("Unable to detect a compatible operating system for screen clearing.")
 
+def choose_music():
+    """Allows the user to choose another music file."""
+    music_file = ""
+    new_music_file = input("Enter the path to the new music file: ")
+    if os.path.exists(new_music_file):
+        music_file = new_music_file
+        init_music_player(music_file)
+        print(f"New music file '{music_file}' loaded.")
+        input("Press ENTER to continue")
+    else:
+        print(f"File '{new_music_file}' not found.")
+        input("Press ENTER to continue")
 
 def init_music_player(music_file):
     # Initialize pygame mixer
@@ -41,19 +53,17 @@ def main():
     global validation
     validation = False
 
-    # Path to the music file
-    music_file = "env/programa/music/music_test.mp31"
-    # Initialize the music player
-    init_music_player(music_file)
+    choose_music()
 
     while validation == False:
-        #clear_screen()
+        clear_screen()
         # Get user input for the command
         print("Select a option: ")
         print("1-) Play the loaded music")
         print("2-) Pause/unpause music")
         print("3-) Stop the music")
-        print("4-) Exit")
+        print("4-) Choose another music file")
+        print("5-) Exit")
 
         try:
             option = int(input(">>> "))
@@ -65,12 +75,17 @@ def main():
                 case 3:
                     stop_music()
                 case 4:
+                    choose_music()
+                case 5:
                     print("Good bye¡")
+                    pygame.mixer.quit()
                     validation = True
                 case _:
                     print("Invalid option")
+                    input("Press ENTER to continue")
         except ValueError:
             print("Invalid option")
+            input("Press ENTER to continue")
             continue
 
 if __name__ == "__main__":
