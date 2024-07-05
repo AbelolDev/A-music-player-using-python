@@ -4,9 +4,7 @@ A simple command-line music player built with Python and Pygame. This program al
 
 ###
 
-<div align="center">
   <img height="100" src="<img src=![fuuka](https://github.com/AbelolDev/A-music-player-using-python/assets/155784727/70f3a67d-f26b-4cd3-a604-0ade17bd6d44) width=50% height=50% align=center>"  />
-</div>
 
 ###
 
