@@ -48,6 +48,28 @@ def stop_music():
     pygame.mixer.music.stop()
     print("Music stopped")
 
+def music_playlist():
+    validation_playlist = False
+    while validation_playlist == False:
+        playlist = []
+        new_music_file = input("Enter the path to the new music file: ")
+        playlist = playlist.append(new_music_file)
+        print("Would you like to enter other music?")
+        print("1-) Yes")
+        print("2-) No")
+        try:
+            option = int(input(">>> ")) 
+            match option:
+                case 1:
+                    validation_playlist = False
+                case 2:
+                    print("Good bye¡")
+                    input("Press ENTER to continue")
+                    validation_playlist = True
+        except ValueError:
+            print("Invalid option")
+            input("Press ENTER to continue")
+
 def main():
 
     global validation
@@ -63,7 +85,8 @@ def main():
         print("2-) Pause/unpause music")
         print("3-) Stop the music")
         print("4-) Choose another music file")
-        print("5-) Exit")
+        print("5-) Add music into playlist")
+        print("6-) Exit")
 
         try:
             option = int(input(">>> "))
@@ -77,6 +100,8 @@ def main():
                 case 4:
                     choose_music()
                 case 5:
+                    music_playlist()
+                case 6:
                     print("Good bye¡")
                     pygame.mixer.quit()
                     validation = True
