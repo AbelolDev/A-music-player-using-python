@@ -33,20 +33,24 @@ def play_music():
     # Play the loaded music
     pygame.mixer.music.play()
     print("Playing music")
+    input("Press ENTER to continue")
 
 def pause_music():
     # Pause or unpause the music depending on its current state
     if pygame.mixer.music.get_busy():
         pygame.mixer.music.pause()
         print("Music paused")
+        input("Press ENTER to continue")
     else:
         pygame.mixer.music.unpause()
         print("Music unpaused")
+        input("Press ENTER to continue")
 
 def stop_music():
     # Stop the music
     pygame.mixer.music.stop()
     print("Music stopped")
+    input("Press ENTER to continue")
 
 def music_playlist():
     validation_playlist = False
