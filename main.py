@@ -1,9 +1,12 @@
 import pygame
 import os
 
+# Lista global para almacenar la lista de reproducción
+playlist = []
+
 def clear_screen():
     """Clears the screen based on the operating system."""
-    if os.name == 'posix':  # Linux and macOS
+    if os.name == 'posix':  # Linux y macOS
         _ = os.system('clear')
     elif os.name == 'nt':  # Windows
         _ = os.system('cls')
@@ -11,85 +14,101 @@ def clear_screen():
         print("Unable to detect a compatible operating system for screen clearing.")
 
 def choose_music():
-    """Allows the user to choose another music file."""
-    music_file = ""
-    new_music_file = input("Enter the path to the new music file: ")
-    if os.path.exists(new_music_file):
-        music_file = new_music_file
-        init_music_player(music_file)
-        print(f"New music file '{music_file}' loaded.")
-        input("Press ENTER to continue")
-    else:
-        print(f"File '{new_music_file}' not found.")
+    """Allows the user to choose another music file and adds it to the playlist."""
+    validation_exit = False
+    while validation_exit == False:
+        new_music_file = input("Enter the path to the new music file: ")
+        if os.path.exists(new_music_file):
+            playlist.append(new_music_file)
+            print(f"Added '{new_music_file}' to playlist.")
+        else:
+            print(f"File '{new_music_file}' not found.")
+        
+        print("Would you like to add another music file?")
+        print("1-) Yes")
+        print("2-) No")
+        try:
+            option = int(input(">>> "))
+            if option == 2:
+                break
+        except ValueError:
+            print("Invalid option")
         input("Press ENTER to continue")
 
 def init_music_player(music_file):
-    # Initialize pygame mixer
+    """Initializes pygame mixer and loads the music file."""
     pygame.mixer.init()
-    # Load the music file
     pygame.mixer.music.load(music_file)
 
 def play_music():
-    # Play the loaded music
-    pygame.mixer.music.play()
-    print("Playing music")
+    """Plays the music in the playlist sequentially."""
+    if not playlist:
+        print("The playlist is empty.")
+        input("Press ENTER to continue")
+        return
+    else:
+        for music_file in playlist:
+            if os.path.exists(music_file):
+                init_music_player(music_file)
+                pygame.mixer.music.play()
+                print(f"Playing {music_file}")
+            else:
+                print(f"File '{music_file}' not found.")
     input("Press ENTER to continue")
 
 def pause_music():
-    # Pause or unpause the music depending on its current state
+    """Pauses or unpauses the music depending on its current state."""
     if pygame.mixer.music.get_busy():
         pygame.mixer.music.pause()
         print("Music paused")
-        input("Press ENTER to continue")
     else:
         pygame.mixer.music.unpause()
         print("Music unpaused")
-        input("Press ENTER to continue")
+    input("Press ENTER to continue")
 
 def stop_music():
-    # Stop the music
+    """Stops the music."""
     pygame.mixer.music.stop()
     print("Music stopped")
     input("Press ENTER to continue")
 
-def music_playlist():
-    validation_playlist = False
-    while validation_playlist == False:
-        playlist = []
+def add_to_playlist():
+    """Allows the user to add music files to the playlist."""
+
+    validation_exit = False
+
+    while validation_exit == False:
         new_music_file = input("Enter the path to the new music file: ")
-        playlist = playlist.append(new_music_file)
-        print("Would you like to enter other music?")
+        if os.path.exists(new_music_file):
+            playlist.append(new_music_file)
+            print(f"Added '{new_music_file}' to playlist.")
+        else:
+            print(f"File '{new_music_file}' not found.")
+        
+        print("Would you like to add another music file?")
         print("1-) Yes")
         print("2-) No")
         try:
-            option = int(input(">>> ")) 
-            match option:
-                case 1:
-                    validation_playlist = False
-                case 2:
-                    print("Good bye¡")
-                    input("Press ENTER to continue")
-                    validation_playlist = True
+            option = int(input(">>> "))
+            if option == 2:
+                break
         except ValueError:
             print("Invalid option")
-            input("Press ENTER to continue")
+        input("Press ENTER to continue")
 
 def main():
-
-    global validation
+    """Main function to run the music player."""
     validation = False
-
-    choose_music()
 
     while validation == False:
         clear_screen()
         # Get user input for the command
-        print("Select a option: ")
+        print("Select an option: ")
         print("1-) Play the loaded music")
         print("2-) Pause/unpause music")
         print("3-) Stop the music")
         print("4-) Choose another music file")
-        print("5-) Add music into playlist")
+        print("5-) Add music to playlist")
         print("6-) Exit")
 
         try:
@@ -104,9 +123,9 @@ def main():
                 case 4:
                     choose_music()
                 case 5:
-                    music_playlist()
+                    add_to_playlist()
                 case 6:
-                    print("Good bye¡")
+                    print("Goodbye!")
                     pygame.mixer.quit()
                     validation = True
                 case _:
@@ -115,7 +134,6 @@ def main():
         except ValueError:
             print("Invalid option")
             input("Press ENTER to continue")
-            continue
 
 if __name__ == "__main__":
     main()
